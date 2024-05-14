@@ -1,12 +1,12 @@
-data.dir <- "user/work/cx23819/machine_learning_assement/data_clean"
+data.dir <- getwd()
 
 ## load datasets
-clinical.dat=read.csv(file.path(data.dir, "clinical.csv"))
-protein.dat=read.csv(file.path(data.dir, "protein.csv"))
-mirna.dat=read.csv(file.path(data.dir, "mirna.csv"))
-mrna.dat=read.csv(file.path(data.dir, "mrna.csv"))
-mutations.dat=read.csv(file.path(data.dir, "mutations.csv"))
-methylation.dat=read.csv(file.path(data.dir, "methylation.csv"))
+clinical.dat<-readRDS(file.path(data.dir, "data_clean/clinical.rds"))
+protein.dat<-readRDS(file.path(data.dir, "data_clean/protein.rds"))
+mirna.dat<-readRDS(file.path(data.dir, "data_clean/mirna.rds"))
+mrna.dat<-readRDS(file.path(data.dir, "data_clean/mrna.rds"))
+mutations.dat<-readRDS(file.path(data.dir, "data_clean/mutations.rds"))
+methylation.dat<-readRDS(file.path(data.dir, "data_clean/methylation.rds"))
 
 
 omics = list(
