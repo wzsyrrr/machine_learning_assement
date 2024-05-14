@@ -1,4 +1,4 @@
-data.dir <- "/user/work/cx23819/machine_learning_assement/data_raw"
+data.dir <- getwd()
 
 ##Downloading data from google drive
 
@@ -32,12 +32,12 @@ extract.participant <- function(id)
   sub("TCGA-[^-]+-([^-]+)-.*", "\\1", id)
 
 ## load datasets
-clinical.dat=read.dataset(file.path(data.dir, "clinical.txt"))
-protein.dat=read.dataset(file.path(data.dir, "protein.txt"))
-mirna.dat=read.dataset(file.path(data.dir, "mirna.txt"))
-mrna.dat=read.dataset(file.path(data.dir, "mrna.txt"))
-mutations.dat=read.dataset(file.path(data.dir, "mutations.txt"))
-methylation.dat=read.dataset(file.path(data.dir, "methylation.txt"))
+clinical.dat=read.dataset(file.path(data.dir, "data_raw/clinical.txt"))
+protein.dat=read.dataset(file.path(data.dir, "data_raw/protein.txt"))
+mirna.dat=read.dataset(file.path(data.dir, "data_raw/mirna.txt"))
+mrna.dat=read.dataset(file.path(data.dir, "data_raw/mrna.txt"))
+mutations.dat=read.dataset(file.path(data.dir, "data_raw/mutations.txt"))
+methylation.dat=read.dataset(file.path(data.dir, "data_raw/methylation.txt"))
 
 
 ## harmonize datasets
