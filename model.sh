@@ -3,7 +3,7 @@
 #SBATCH --job-name=model
 #SBATCH --partition=veryshort
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=20
+#SBATCH --ntasks-per-node=1
 #SBATCH --time=6:00:00 #SBATCH --mem=19000
 
 module add languages/r/4.3.1
