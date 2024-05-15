@@ -34,7 +34,7 @@ compendium/ <br/>
 First, clone the repository using the following command:
 
 ```sh
-git clone <web URL>
+git clone https://github.com/wzsyrrr/machine_learning_assement.git
 ```
 
 ### 2. Navigate to the Project Directory
