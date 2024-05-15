@@ -15,8 +15,8 @@ library(precrec) ## mlr3 plots
 library(rpart) ## classification trees 
 library(xgboost) ## xgboost 
 library(glmnet) ## ealstic net 
-library(future) #parallel running
-
+library(future) ## parallel
+library(Cairo)
 
 ##plan(multisession,workers=20)
 
@@ -232,3 +232,71 @@ bm.mu = benchmark(design.mu)
 
 bm.mu$aggregate(measures = metrics)
 
+costs = rbind(
+  c(0,1),
+  c(5,0))
+dimnames(costs) = list(
+  predicted = task_mrna$class_names,
+  truth = task_mrna$class_names)
+costs
+
+msr_costs = msr(
+  "classif.costs",
+  id = "nonsymmetriccosts",
+  costs = costs,
+  normalize = TRUE)
+
+metrics = c(metrics, msr_costs) 
+
+
+#Create a leaner that undersample the large class
+xgbunder = (
+  po("imputesample") %>>%
+    po("scale") %>>%
+    po("classbalancing",
+       id = "undersample", adjust = "major",
+       reference = "major", shuffle = FALSE, ratio = 1/5) %>>%
+    po("select") %>>%
+    lrn(
+      "classif.xgboost",
+      predict_type='prob',
+      objective = "binary:logistic",
+      eta = 0.3,
+      max_depth = 6,
+      min_child_weight = 1,
+      subsample = 0.5,
+      colsample_bytree = 0.5))
+
+xgbunder = as_learner(xgbunder)
+
+
+#Create a learner that oversample the small class
+xgbover = (
+  po("imputesample") %>>%
+    po("scale") %>>%
+    po("classbalancing",
+       id = "oversample", adjust = "minor",
+       reference = "major", shuffle = FALSE, ratio = 5) %>>%
+    po("select") %>>%
+    lrn(
+      "classif.xgboost",
+      predict_type='prob',
+      objective = "binary:logistic",
+      eta = 0.3,
+      max_depth = 6,
+      min_child_weight = 1,
+      subsample = 0.5,
+      colsample_bytree = 0.5
+    ))
+
+xgbover = as_learner(xgbover)
+
+
+design_xgb = benchmark_grid(task_mrna, c(xgb, xgbover, xgbunder), rsmp("cv",folds=3))
+bm_xgb = benchmark(design_xgb)
+
+bm_xgb$aggregate(measure=metrics)
+
+png("roc_curves.png")
+autoplot(bm_xgb, type = "roc")
+dev.off()
