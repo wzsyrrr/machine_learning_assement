@@ -20,11 +20,15 @@ library(Cairo)
 
 ##plan(multisession,workers=20)
 
+# In the below code, we are going to combine clinical data with each omic features repectively and compare the elastic 
+#net model and xgboost model prediction performance
 
+# First to create a metrics for benchmarking
 metrics = c("auc", "acc", "sensitivity", "specificity", "precision", "recall", "fbeta")
 metrics = paste("classif", metrics, sep = ".")
 metrics = lapply(metrics, msr)
 
+#Use pipline to create create two learners
 # Create Elastic net leaner
 elnet = (
   po("imputesample") %>>%
@@ -55,7 +59,10 @@ xgb=as_learner(xgb)
 
 
 #Predict breast cancer with protein abundance
+
+#Combine clinical dataset and protein dataset
 protein.bc.dat = data.frame(clinical.dat, t(protein.dat))
+#Set task, our outcome is breast cancer recurrence(pfi)
 task_protein = as_task_classif(
   x=protein.bc.dat,
   target="pfi",
@@ -64,12 +71,14 @@ task_protein = as_task_classif(
 
 task_protein$col_roles$stratum = task_protein$target_names
 
+#Split dataset into train and test
 set.seed(43)
 dat.parts.protein = partition(task_protein, 3/4)
 
 #Train for elastic net
 elnet$train(task_protein, dat.parts.protein$train)
 
+#Get prediction and confusion matrics
 preds.protein.elnet=elnet$predict(task_protein, dat.parts.protein$test)
 preds.protein.elnet$confusion
 
@@ -78,7 +87,6 @@ xgb$train(task_protein, dat.parts.protein$train)
 
 preds.xgb.protein=xgb$predict(task_protein, dat.parts.protein$test)
 preds.xgb.protein$confusion
-
 
 
 #compare performance by benchmarking
@@ -232,6 +240,9 @@ bm.mu = benchmark(design.mu)
 
 bm.mu$aggregate(measures = metrics)
 
+
+## The code above is to balance by undersample the large dataset and oversample the small dataset
+#First set cots
 costs = rbind(
   c(0,1),
   c(5,0))
@@ -246,13 +257,14 @@ msr_costs = msr(
   costs = costs,
   normalize = TRUE)
 
+#Add costs to our metrics
 metrics = c(metrics, msr_costs) 
 
 
-#Create a leaner that undersample the large class
+#Create a leaner that undersample the large class, we will include undersample in the pipline
 xgbunder = (
-  po("imputesample") %>>%
-    po("scale") %>>%
+  po("imputesample") %>>%     #1.impute
+    po("scale") %>>%          #2.scale
     po("classbalancing",
        id = "undersample", adjust = "major",
        reference = "major", shuffle = FALSE, ratio = 1/5) %>>%
@@ -291,12 +303,11 @@ xgbover = (
 
 xgbover = as_learner(xgbover)
 
-
+#Compare the performance of undersample, oversample and normal model
 design_xgb = benchmark_grid(task_mrna, c(xgb, xgbover, xgbunder), rsmp("cv",folds=3))
 bm_xgb = benchmark(design_xgb)
 
 bm_xgb$aggregate(measure=metrics)
 
-png("roc_curves.png")
+
 autoplot(bm_xgb, type = "roc")
-dev.off()

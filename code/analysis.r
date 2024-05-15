@@ -8,7 +8,7 @@ mrna.dat<-readRDS(file.path(data.dir, "data_clean/mrna.rds"))
 mutations.dat<-readRDS(file.path(data.dir, "data_clean/mutations.rds"))
 methylation.dat<-readRDS(file.path(data.dir, "data_clean/methylation.rds"))
 
-
+# Put all datasets together to get a omic datalist
 omics = list(
   protein.dat=protein.dat,
   mirna.dat=mirna.dat,
@@ -44,6 +44,7 @@ for (i in 1:length(omics)) {
   }
 }
 
+#Load poackages
 library(mlr3verse)
 library(mlr3pipelines) 
 library(bcv)
@@ -63,12 +64,16 @@ omics <- lapply(omics, function(df) {
 })
 saveRDS(imputed_omics_list, file = file.path(data.dir,"imp_dat.rds"))
 
+# Set the variance to be 80%
 min.prop = 0.8
+#Use principle components analysis to calculate the rank estimates
 r = sapply(omics, function(omics) {
   sdev = prcomp(omics)$sdev ## std dev of each principal component
   which(cumsum(sdev^2/sum(sdev^2)) > min.prop)[1] })
 
 r
+
+#Compare the original number of features to the rank estimates
 cbind(
   features=sapply(omics, ncol),
   "rank estimate"=r)
