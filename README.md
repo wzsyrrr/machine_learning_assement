@@ -2,6 +2,26 @@
 
 This repository contains the code and instructions for the machine learning assessment. Follow the steps below to download the dataset, clean the data, perform analysis, and fit the model.
 
+## Compendium
+compendium/
+├── code
+│   ├── analysis.R
+│   └── data_clean.R
+│   └── model.R
+├── data_clean
+│   └── data_clean.rds
+├── data_raw
+│   ├── data_raw.txt
+├── figures
+│   └── flow_chart.jpeg
+├── LICENSE
+├── analysis.sh
+├── clean.sh
+├── dwonload.sh
+├── model.sh
+└── README.md
+
+
 ## Prerequisites
 
 - Access to BlueCrystal 4 (BC4) cluster
