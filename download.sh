@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --account=SSCM030364
-#SBATCH --job-name=analysis
+#SBATCH --job-name=download
 #SBATCH --partition=veryshort
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1

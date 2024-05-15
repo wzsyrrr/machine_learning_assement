@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --account=SSCM030364
-#SBATCH --job-name=job
+#SBATCH --job-name=clean
 #SBATCH --partition=veryshort
 #SBATCH --nodes=20
 #SBATCH --ntasks-per-node=1
