@@ -3,23 +3,23 @@
 This repository contains the code and instructions for the machine learning assessment. Follow the steps below to download the dataset, clean the data, perform analysis, and fit the model.
 
 ## Compendium
-compendium/
-├── code
-│   ├── analysis.R
-│   └── data_clean.R
-│   └── model.R
-├── data_clean
-│   └── data_clean.rds
-├── data_raw
-│   ├── data_raw.txt
-├── figures
-│   └── flow_chart.jpeg
-├── LICENSE
-├── analysis.sh
-├── clean.sh
-├── dwonload.sh
-├── model.sh
-└── README.md
+compendium/ <br/>
+├── code    <br/>
+│   ├── analysis.R  <br/>
+│   └── data_clean.R  <br/>
+│   └── model.R  <br/>
+├── data_clean  <br/>
+│   └── data_clean.rds  <br/>
+├── data_raw  <br/>
+│   ├── data_raw.txt  <br/>
+├── figures  <br/>
+│   └── flow_chart.jpeg  <br/>
+├── LICENSE  <br/>
+├── analysis.sh  <br/>
+├── clean.sh  <br/>
+├── dwonload.sh  <br/>
+├── model.sh  <br/>
+└── README.md  <br/>
 
 
 ## Prerequisites
