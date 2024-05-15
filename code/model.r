@@ -16,9 +16,9 @@ library(rpart) ## classification trees
 library(xgboost) ## xgboost 
 library(glmnet) ## ealstic net 
 library(future) #parallel running
-library(Cairo) #save figure on hpc
 
-plan(multisession,workers=20)
+
+##plan(multisession,workers=20)
 
 
 metrics = c("auc", "acc", "sensitivity", "specificity", "precision", "recall", "fbeta")
@@ -87,17 +87,7 @@ bm.protein = benchmark(design.protein)
 
 bm.protein$aggregate(measures = metrics)
 
-png("figures/Boxplot_p.png")
-autoplot(bm.protein, measure = msr("classif.auc"))
-dev.off()
 
-png("figures/AUC_p.png")
-autoplot(bm.protein, type = "roc")
-dev.off()
-
-png("figures/PRC_p.png")
-autoplot(bm.protein, type = "prc")
-dev.off()
 
 
 ##Predict breast cancer by methylation
@@ -133,17 +123,7 @@ bm.meth = benchmark(design.meth)
 
 bm.meth$aggregate(measures = metrics)
 
-png("figures/Boxplot_meth.png")
-autoplot(bm.meth, measure = msr("classif.auc"))
-dev.off()
 
-png("figures/AUC_meth.png")
-autoplot(bm.meth, type = "roc")
-dev.off()
-
-png("figures/PRC_meth.png")
-autoplot(bm.meth, type = "prc")
-dev.off()
 
 
 
@@ -180,19 +160,6 @@ bm.mirna = benchmark(design.mirna)
 
 bm.mirna$aggregate(measures = metrics)
 
-png("figures/Boxplot_mirna.png")
-autoplot(bm.mirna, measure = msr("classif.auc"))
-dev.off()
-
-png("figures/AUC_mirna.png")
-autoplot(bm.mirna, type = "roc")
-dev.off()
-
-png("figures/PRC_mirna.png")
-autoplot(bm.mirna, type = "prc")
-dev.off()
-
-
 
 
 ## Predict breast cancer by Messenger RNA
@@ -228,17 +195,6 @@ bm.mrna = benchmark(design.mrna)
 
 bm.mrna$aggregate(measures = metrics)
 
-png("figures/Boxplot_mrna.png")
-autoplot(bm.mrna, measure = msr("classif.auc"))
-dev.off()
-
-png("figures/AUC_mrna.png")
-autoplot(bm.mrna, type = "roc")
-dev.off()
-
-png("figures/PRC_mrna.png")
-autoplot(bm.mrna, type = "prc")
-dev.off()
 
 
 
@@ -276,14 +232,3 @@ bm.mu = benchmark(design.mu)
 
 bm.mu$aggregate(measures = metrics)
 
-png("figures/Boxplot_mu.png")
-autoplot(bm.mu, measure = msr("classif.auc"))
-dev.off()
-
-png("figures/AUC_mu.png")
-autoplot(bm.mu, type = "roc")
-dev.off()
-
-png("figures/PRC_mu.png")
-autoplot(bm.mu, type = "prc")
-dev.off()
