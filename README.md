@@ -5,7 +5,7 @@ This repository contains the code and instructions for the machine learning asse
 ## Prerequisites
 
 - Access to BlueCrystal 4 (BC4) cluster
-- Git installed on your local machine
+- Git installed on your hpc machine
 
 ## Steps
 
@@ -30,7 +30,7 @@ cd machine_learning_assement
 Run the provided shell script to download the dataset from Google Drive we set up. The data will be saved in the data_raw directory.
 
 ```sh
-sh download.sh
+sbatch download.sh
 ```
 
 ### 4. Clean the Data
