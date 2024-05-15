@@ -47,7 +47,7 @@ for (i in 1:length(omics)) {
 library(mlr3verse)
 library(mlr3pipelines) 
 library(bcv)
-library(ajive)
+
 
 omics <- lapply(omics, function(df) {
   # Check if there are any missing values in the dataframe
