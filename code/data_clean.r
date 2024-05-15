@@ -104,11 +104,10 @@ mutations.dat=mutations.dat[,mu.missing.pct < 0.2]
 protein.missing.pct=sapply(protein.dat, function(v) mean(is.na(v)))
 protein.dat=protein.dat[,protein.missing.pct < 0.2]
 
-write.csv(methylation.dat, "/user/work/cx23819/machine_learning_assessment/data_clean/methylation.csv", row.names=TRUE)
-write.csv(mrna.dat, "/user/work/cx23819/machine_learning_assessment/data_clean/mrna.csv", row.names=TRUE)
-write.csv(mirna.dat, "/user/work/cx23819/machine_learning_assessment/data_clean/mirna.csv", row.names=TRUE)
-write.csv(mutations.dat, "/user/work/cx23819/machine_learning_assessment/data_clean/mutations.csv", row.names=TRUE)
-write.csv(protein.dat, "/user/work/cx23819/machine_learning_assessment/data_clean/protein.csv", row.names=TRUE)
-write.csv(clinical.dat, "/user/work/cx23819/machine_learning_assessment/data_clean/clinical.csv", row.names=TRUE)
 
-
+writeRDS(methylation.dat,file=file.path(data.dir, "data_clean/methylation.rds"))
+writeRDS(mrna.dat,file=file.path(data.dir, "data_clean/methylation.rds"))
+writeRDS(mirna.dat,file=file.path(data.dir, "data_clean/methylation.rds"))
+writeRDS(mutations.dat,file=file.path(data.dir, "data_clean/methylation.rds"))
+writeRDS(protein.dat,file=file.path(data.dir, "data_clean/methylation.rds"))
+writeRDS(clinical.dat,file=file.path(data.dir, "data_clean/methylation.rds"))
